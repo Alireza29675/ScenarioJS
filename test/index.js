@@ -1,3 +1,4 @@
-import ScenarioJS from '../lib/index.js'
+import Scenario from '../lib/index.js'
+import HttpServerNode from './HttpServerNode'
 
-const scenario = new ScenarioJS();
+const node1 = new HttpServerNode();

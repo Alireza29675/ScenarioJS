@@ -1,7 +1,10 @@
-class ScenarioJS {
+import Node from './Node'
+
+class Scenario {
     constructor () {
-        console.log('Works fine!')
+
     }
 }
 
-export default ScenarioJS
+export { Node };
+export default Scenario;

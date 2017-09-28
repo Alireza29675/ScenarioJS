@@ -1,3 +1,2 @@
-import Scenario from './ScenarioJS'
-
-export default Scenario
+export * from './ScenarioJS'
+export default from './ScenarioJS'
