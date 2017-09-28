@@ -11,7 +11,7 @@ class HttpServerNode extends Node {
         http.createServer(this._onHttpRequest.bind(this)).listen(this.props.port || 3000);
     }
     _onHttpRequest (req, res) {
-        this.broadcast('request', { request: req, response: res });
+        this.getBroadcaster('request').broadcast({ request: req, response: res });
     }
 }
 

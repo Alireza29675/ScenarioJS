@@ -1,16 +1,12 @@
 import { isValid, any } from 'shapely'
+import Receiver from "./Receiver";
+import Broadcaster from "./Broadcaster";
 
 const defaultNodeOptions = {
     name: 'no-name',
     label: 'No Name Node!',
     script: '',
     position: [0, 0]
-};
-const defaultReceiverOptions = {
-
-};
-const defaultBroadcasterOptions = {
-
 };
 const defaultProperties = {
 
@@ -20,10 +16,8 @@ class Node {
     constructor (options = {}, props = {}) {
         // Default options for every node
         this.options = Object.assign({}, defaultNodeOptions, options);
-        this.channels = {
-            receivers: [],
-            broadcasters: []
-        };
+        this.receivers = [];
+        this.broadcasters = [];
         this.props = Object.assign({}, defaultProperties, props);
         this.name = this.options.name;
         this.label = this.options.label;
@@ -31,19 +25,25 @@ class Node {
     }
 
     // Adding or Removing Channels
-    addReceiver (options = {type: any, name: ''}) {
-        const receiverOptions = Object.assign({ isChannel: true, isReceiver: true }, defaultReceiverOptions, options);
-        this.channels.receivers.push(receiverOptions)
+    addReceiver (options = {name: '', type: any}) {
+        this.receivers.push(new Receiver(this, options.name, options.type))
     }
-    addBroadcaster (options = {type: any, name: ''}) {
-        const broadcasterOptions = Object.assign({ isChannel: true, isBroadcaster: true }, defaultBroadcasterOptions, options);
-        this.channels.broadcasters.push(broadcasterOptions)
+    addBroadcaster (options = {name: '', type: any}) {
+        this.broadcasters.push(new Broadcaster(this, options.name, options.type))
     }
     addProperty (options = {type: any, name: 'Unnamed'}) {
         this.props[options.name] = {
             name: options.name,
             type: options.type
         }
+    }
+    getBroadcaster (name) {
+        for (let broadcaster of this.broadcasters) if (broadcaster.name === name) return broadcaster;
+        return null;
+    }
+    getReceiver (name) {
+        for (let receiver of this.receivers) if (receiver.name === name) return receiver;
+        return null;
     }
 
     // Positioning getters and setters
@@ -59,17 +59,19 @@ class Node {
     }
 
     // Behaviours
-    receive (channel, data) {
-        this.onReceive(channel, data)
+    receive (receiverName, data) {
+        const receiver = this.getReceiver(receiverName);
+        receiver.receive(data);
     }
-    broadcast (channel, data) {
-        this.onBroadcast(channel, data)
+    broadcast (broadcasterName, data) {
+        const broadcaster = this.getBroadcaster(broadcasterName);
+        broadcaster.broadcast(data);
     }
 
     // Events Listeners
     onReady () {}
-    onReceive (channel, data) {}
-    onBroadcast (channel, data) {}
+    onReceive (receiver, data) {}
+    onBroadcast (broadcaster, data) {}
     onMove (position) {}
 }
 
