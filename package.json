@@ -1,0 +1,42 @@
+{
+  "name": "scenariojs",
+  "version": "0.0.0",
+  "description": "a node-based visual scripting system",
+  "main": "lib/index.js",
+  "scripts": {
+    "babel-node": "babel-node --presets=es2015",
+    "test": "nodemon --exec npm run babel-node -- test/index.js",
+    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "compile:watch": "babel -w --presets es2015,stage-0 -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alireza29675/ScenarioJS.git"
+  },
+  "keywords": [
+    "visual",
+    "scripting",
+    "blueprint",
+    "scenariojs",
+    "nodes",
+    "future"
+  ],
+  "author": "Alireza Sheikholmolouki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alireza29675/ScenarioJS/issues"
+  },
+  "homepage": "https://github.com/Alireza29675/ScenarioJS#readme",
+  "devDependencies": {
+    "nodemon": "*",
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
