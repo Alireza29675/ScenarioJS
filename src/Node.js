@@ -7,6 +7,7 @@ const defaultNodeOptions = {
     name: 'no-name',
     label: 'No Name Node!',
     script: '',
+    shouldPass: true,
     position: [0, 0]
 };
 const defaultProperties = {
@@ -28,6 +29,26 @@ class Node {
         this.name = this.options.name;
         this.label = this.options.label;
         this.script = this.options.script;
+        this.initFuncFiredBefore = false;
+        this.isOn = false;
+        this.addReceiver('control', Boolean, this.onControlRequested.bind(this));
+        this.addBroadcaster('next', Boolean);
+    }
+
+    /**
+     * on control receiver got command
+     * @param shouldTurnOn
+     * @return {*}
+     */
+    onControlRequested (shouldTurnOn) {
+        if (!this.isOn && shouldTurnOn) {
+            if (!this.initFuncFiredBefore) {
+                this.init();
+                if (this.options.shouldPass) this.broadcasters.next.broadcast(true)
+            }
+            else return this.onResume();
+        }
+        else if (this.isOn && !shouldTurnOn) return this.onPause();
     }
 
     /**
@@ -134,7 +155,9 @@ class Node {
     }
 
     // Events Listeners
-    onReady () {}
+    init () {}
+    onResume () {}
+    onPause () {}
     onReceive (receiver, data) {}
     onBroadcast (broadcaster, data) {}
     onMove (position) {}
