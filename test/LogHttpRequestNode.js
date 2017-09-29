@@ -6,8 +6,8 @@ class LogHttpRequestNode extends Node {
         this.addReceiver('request', Object, this.onHttpRequestReceived.bind(this));
     }
     onHttpRequestReceived (data) {
-        console.log('New Request');
-        console.log(data.body)
+        const req = data.request;
+        console.log(`new HTTP Request: ${req.url}`);
     }
 }
 
