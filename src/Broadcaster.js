@@ -1,5 +1,6 @@
 import Receiver from "./Receiver";
 import { isValid } from 'shapely'
+import Report from "./tools/Report";
 
 class Broadcaster {
     /**
@@ -20,9 +21,16 @@ class Broadcaster {
      * @param data
      */
     broadcast (data) {
+        // Checking type validation
+        if (!isValid(this.type, data))
+            return new Report({ type: 'error',  message: `data is not valid! expected ${this.type}` });
+
+        // Broadcasting to all connected receivers
         for (let receiver of this.connections) {
             receiver.receive(data)
         }
+
+        // Firing onBroadcast method of parent node
         this.node.onBroadcast(this, data)
     }
 
