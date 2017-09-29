@@ -5,7 +5,6 @@ class HttpServerNode extends Node {
     constructor (props) {
         super({}, props);
         this.addBroadcaster('request', Object);
-        this.init()
     }
     init () {
         http.createServer(this.onHttpRequest.bind(this)).listen(this.props.port || 3000);

@@ -44,11 +44,16 @@ class Node {
         if (!this.isOn && shouldTurnOn) {
             if (!this.initFuncFiredBefore) {
                 this.init();
-                if (this.options.shouldPass) this.broadcasters.next.broadcast(true)
+                this.initFuncFiredBefore = true;
+                if (this.options.shouldPass) this.broadcasters.next.broadcast(true);
             }
-            else return this.onResume();
+            else this.onResume();
+            this.isOn = true;
         }
-        else if (this.isOn && !shouldTurnOn) return this.onPause();
+        else if (this.isOn && !shouldTurnOn) {
+            this.onPause();
+            this.isOn = false;
+        }
     }
 
     /**
