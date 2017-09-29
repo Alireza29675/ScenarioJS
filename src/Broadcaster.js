@@ -19,6 +19,7 @@ class Broadcaster {
     /**
      * Broadcasts a message to all connected receivers
      * @param data
+     * @return {Broadcaster|Report}
      */
     broadcast (data) {
         // Checking type validation
@@ -31,17 +32,31 @@ class Broadcaster {
         }
 
         // Firing onBroadcast method of parent node
-        this.node.onBroadcast(this, data)
+        this.node.onBroadcast(this, data);
+
+        return this
     }
 
     /**
      * Connects broadcaster to a receiver
      * @param receiver
+     * @return {Broadcaster|Report}
      */
     connectTo (receiver) {
+        // Validating data types between broadcaster and receiver
+        if (this.type !== receiver.type) {
+            return new Report({
+                type: 'error',
+                message: `Type of broadcaster and receiver doesn't match! ${this.type} X ${receiver.type}`
+            })
+        }
+
+        // checking existing connections and connect the new one
         if (receiver instanceof Receiver && !this.connections.includes(receiver)) {
             this.connections.push(receiver)
         }
+
+        return this
     }
 }
 
