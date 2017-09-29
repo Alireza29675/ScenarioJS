@@ -4,12 +4,14 @@ class Receiver {
      * @param node
      * @param name
      * @param type
+     * @param callback
      */
-    constructor (node, name, type) {
+    constructor (node, name, type, callback) {
         this.node = node;
         this.name = name;
         this.type = type;
-        this.listeners = []
+        this.listeners = [];
+        if (callback) this.addListener(callback);
     }
 
     /**

@@ -34,9 +34,10 @@ class Node {
      * Adding Receiver
      * @param name
      * @param type
+     * @param callback
      * @returns {Receiver|Report}
      */
-    addReceiver (name, type = any) {
+    addReceiver (name, type = any, callback) {
         // Validation and Catch errors
         if (!name)
             return new Report({ type: 'error', message: 'Receiver must have a name!' });
@@ -45,24 +46,25 @@ class Node {
             return new Report({ type: 'error', message: 'Receiver must have a name!' });
 
         // Add Receiver
-        return this.receivers[name] = new Receiver(this, name, type)
+        return this.receivers[name] = new Receiver(this, name, type, callback)
     }
 
     /**
      * Adding Broadcaster
-     * @param options
+     * @param name
+     * @param type
      * @returns {Broadcaster|Report}
      */
-    addBroadcaster (options = {type: any}) {
+    addBroadcaster (name, type = any) {
         // Validation and Catch errors
-        if (!options.name)
+        if (!name)
             return new Report({ type: 'error', message: 'Broadcaster must have a name!' });
 
-        if (this.broadcasters[options.name])
+        if (this.broadcasters[name])
             return new Report({ type: 'error', message: 'Broadcaster must have a name!' });
 
         // Add Receiver
-        return this.broadcasters[options.name] = new Broadcaster(this, options.name, options.type)
+        return this.broadcasters[name] = new Broadcaster(this, name, type)
     }
 
     /**

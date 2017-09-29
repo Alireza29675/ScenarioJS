@@ -1,4 +1,5 @@
 import Node from './Node'
+import { isValid, any, union } from 'shapely'
 
 class Scenario {
     constructor () {
@@ -6,5 +7,5 @@ class Scenario {
     }
 }
 
-export { Node };
+export { Node, any, union };
 export default Scenario;

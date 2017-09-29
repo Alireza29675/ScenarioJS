@@ -3,12 +3,9 @@ import { Node } from '../lib/index'
 class ResponserNode extends Node {
     constructor () {
         super();
-        this.addReceiver({ name: 'request', type: Object })
+        this.addReceiver('request', Object, this.onHttpRequestReceived.bind(this))
     }
-    onReceive (receiver, data) {
-        if (receiver.name === 'request') this._onHttpRequestReceived(data)
-    }
-    _onHttpRequestReceived (data) {
+    onHttpRequestReceived (data) {
         data.response.end('get schwifty!');
     }
 }

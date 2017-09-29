@@ -4,14 +4,14 @@ import http from 'http'
 class HttpServerNode extends Node {
     constructor (props) {
         super({}, props);
-        this.addBroadcaster({ name: 'request', type: Object });
-        this.onReady();
+        this.addBroadcaster('request', Object);
+        this.init()
     }
-    onReady () {
-        http.createServer(this._onHttpRequest.bind(this)).listen(this.props.port || 3000);
+    init () {
+        http.createServer(this.onHttpRequest.bind(this)).listen(this.props.port || 3000);
     }
-    _onHttpRequest (req, res) {
-        this.getBroadcaster('request').broadcast({ request: req, response: res });
+    onHttpRequest (req, res) {
+        this.broadcasters.request.broadcast({ request: req, response: res });
     }
 }
 
