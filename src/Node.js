@@ -1,6 +1,7 @@
-import { isValid, any } from 'shapely'
+import { any } from 'shapely'
 import Receiver from "./Receiver";
 import Broadcaster from "./Broadcaster";
+import Report from "./tools/Report";
 
 const defaultNodeOptions = {
     name: 'no-name',
@@ -13,40 +14,92 @@ const defaultProperties = {
 };
 
 class Node {
+    /**
+     * Node constructor
+     * @param options
+     * @param props
+     */
     constructor (options = {}, props = {}) {
         // Default options for every node
         this.options = Object.assign({}, defaultNodeOptions, options);
-        this.receivers = [];
-        this.broadcasters = [];
+        this.receivers = {};
+        this.broadcasters = {};
         this.props = Object.assign({}, defaultProperties, props);
         this.name = this.options.name;
         this.label = this.options.label;
         this.script = this.options.script;
     }
 
-    // Adding or Removing Channels
-    addReceiver (options = {name: '', type: any}) {
-        this.receivers.push(new Receiver(this, options.name, options.type))
+    /**
+     * Adding Receiver
+     * @param name
+     * @param type
+     * @returns {Receiver|Report}
+     */
+    addReceiver (name, type = any) {
+        // Validation and Catch errors
+        if (!name)
+            return new Report({ type: 'error', message: 'Receiver must have a name!' });
+
+        if (this.receivers[name])
+            return new Report({ type: 'error', message: 'Receiver must have a name!' });
+
+        // Add Receiver
+        return this.receivers[name] = new Receiver(this, name, type)
     }
-    addBroadcaster (options = {name: '', type: any}) {
-        this.broadcasters.push(new Broadcaster(this, options.name, options.type))
+
+    /**
+     * Adding Broadcaster
+     * @param options
+     * @returns {Broadcaster|Report}
+     */
+    addBroadcaster (options = {type: any}) {
+        // Validation and Catch errors
+        if (!options.name)
+            return new Report({ type: 'error', message: 'Broadcaster must have a name!' });
+
+        if (this.broadcasters[options.name])
+            return new Report({ type: 'error', message: 'Broadcaster must have a name!' });
+
+        // Add Receiver
+        return this.broadcasters[options.name] = new Broadcaster(this, options.name, options.type)
     }
-    addProperty (options = {type: any, name: 'Unnamed'}) {
+
+    /**
+     * Adding Property
+     * @param options
+     */
+    addProperty (options = {type: any}) {
         this.props[options.name] = {
             name: options.name,
             type: options.type
         }
     }
-    getBroadcaster (name) {
-        for (let broadcaster of this.broadcasters) if (broadcaster.name === name) return broadcaster;
-        return null;
-    }
-    getReceiver (name) {
-        for (let receiver of this.receivers) if (receiver.name === name) return receiver;
-        return null;
+
+    /**
+     * Returns all receivers as an array
+     * @returns {Array}
+     */
+    getAllReceivers () {
+        const allReceivers = [];
+        for (let name of this.receivers) allReceivers.push(name);
+        return allReceivers;
     }
 
-    // Positioning getters and setters
+    /**
+     * Returns all broadcasters as an array
+     * @returns {Array}
+     */
+    getAllBroadcasters () {
+        const allBroadcasters = [];
+        for (let name of this.broadcasters) allBroadcasters.push(name);
+        return allBroadcasters;
+    }
+
+
+    /**
+     * Positioning Getters and Setters
+     */
     get x () { return this.options.position[0]; }
     set x (to) {
         this.options.position[0] = to;
@@ -58,13 +111,23 @@ class Node {
         this.onMove(this.options.position)
     }
 
-    // Behaviours
+    /**
+     * Receive data and pass it to a receiver
+     * @param receiverName
+     * @param data
+     */
     receive (receiverName, data) {
-        const receiver = this.getReceiver(receiverName);
+        const receiver = this.receivers[receiverName];
         receiver.receive(data);
     }
+
+    /**
+     * Receive data and pass it to a receiver
+     * @param broadcasterName
+     * @param data
+     */
     broadcast (broadcasterName, data) {
-        const broadcaster = this.getBroadcaster(broadcasterName);
+        const broadcaster = this.broadcasters[broadcasterName];
         broadcaster.broadcast(data);
     }
 
@@ -73,6 +136,22 @@ class Node {
     onReceive (receiver, data) {}
     onBroadcast (broadcaster, data) {}
     onMove (position) {}
+
+    /**
+     * Append a listener to a receiver
+     * @param receiverName
+     * @param cb
+     * @returns {Receiver|Report}
+     */
+    on (receiverName, cb) {
+        const receiver = this.receivers[receiverName];
+        if (!receiver) return new Report({
+            type: 'error',
+            message: `There is no receiver named ${receiverName}! Check it out again`
+        });
+        receiver.addListener(cb);
+        return receiver
+    }
 }
 
 export default Node

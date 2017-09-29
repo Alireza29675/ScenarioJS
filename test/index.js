@@ -1,8 +1,10 @@
-import Scenario from '../lib/index.js'
-import HttpServerNode from './HttpServerNode'
-import ResponserNode from "./ResponserNode";
+import HttpServerNode from "./HttpServerNode";
+import ResponderNode from "./ResponderNode";
+import LogHttpRequestNode from "./LogHttpRequestNode";
 
-const server = new HttpServerNode({ port: 8080 });
-const responser = new ResponserNode();
+const server = new HttpServerNode({ port: 3000 });
+const responder = new ResponderNode();
+const logger = new LogHttpRequestNode();
 
-server.getBroadcaster('request').connectTo(responser.getReceiver('request'))
+server.broadcasters.request.connectTo(responder.receivers.request);
+server.broadcasters.request.connectTo(logger.receivers.request);
