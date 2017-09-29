@@ -1,3 +1,6 @@
+import Report from "./tools/Report";
+import { checkValid } from "./tools/TypeValidator";
+
 class Receiver {
     /**
      * Receiver constructor
@@ -17,10 +20,20 @@ class Receiver {
     /**
      * Receives a data, calls listeners then fires the onReceive method
      * @param data
+     * @return {Receiver|Report}
      */
     receive (data) {
-        for (let listener of this.listeners) if (listener) listener();
-        this.node.onReceive(this, data)
+        // Checking type validation
+        if (!checkValid(this.type, data))
+            return new Report({ type: 'error',  message: `received data is not valid! expected ${this.type}` });
+
+        // Calling all listeners
+        for (let listener of this.listeners) if (listener) listener(data);
+
+        // Firing onReceive method of parent node
+        this.node.onReceive(this, data);
+
+        return this
     }
 
     /**

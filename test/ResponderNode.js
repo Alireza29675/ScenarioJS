@@ -6,7 +6,7 @@ class ResponserNode extends Node {
         this.addReceiver('request', Object, this.onHttpRequestReceived.bind(this))
     }
     onHttpRequestReceived (data) {
-        data.response.end('get schwifty!');
+        data.response.end('PICKLE RIIIICK!!')
     }
 }
 

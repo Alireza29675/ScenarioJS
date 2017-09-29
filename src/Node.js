@@ -1,4 +1,4 @@
-import { any } from 'shapely'
+import {any} from './tools/TypeValidator'
 import Receiver from "./Receiver";
 import Broadcaster from "./Broadcaster";
 import Report from "./tools/Report";
