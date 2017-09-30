@@ -3,8 +3,8 @@ import { Node, any } from '../lib/index'
 class TimerNode extends Node {
     constructor (props) {
         super({ shouldPass: false }, props);
-        this.addBroadcaster('pass', Object);
-        this.addReceiver('pass', Object, this.passData.bind(this));
+        this.addBroadcaster('pass', any);
+        this.addReceiver('pass', any, this.passData.bind(this));
         this.props.timeout = this.props.timeout || 1000;
         this.props.repeat = this.props.repeat || 1;
         this.props.togglePulse = this.props.togglePulse || false;

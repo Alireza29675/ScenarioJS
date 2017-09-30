@@ -1,6 +1,6 @@
 import Receiver from "./Receiver";
 import Report from "./tools/Report";
-import { checkValid } from "./tools/TypeValidator";
+import { checkValid, any } from "./tools/TypeValidator";
 
 class Broadcaster {
     /**
@@ -43,8 +43,9 @@ class Broadcaster {
      * @return {Broadcaster|Report}
      */
     connectTo (receiver) {
+        const oneOfThoseHaveAnyType = (this.type === any) || (receiver.type === any);
         // Validating data types between broadcaster and receiver
-        if (this.type !== receiver.type) {
+        if (this.type !== receiver.type && !oneOfThoseHaveAnyType) {
             return new Report({
                 type: 'error',
                 message: `Type of broadcaster and receiver doesn't match! ${this.type} X ${receiver.type}`

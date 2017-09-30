@@ -7,8 +7,8 @@ import TimerNode from "./TimerNode";
 
 const scenario = new Scenario();
 
-const timer = new TimerNode({ timeout: 3000 });
-const serverDelay = new TimerNode({ timeout: 5000 });
+const timer = new TimerNode({ timeout: 1000 });
+const serverDelay = new TimerNode({ timeout: 2500 });
 const server = new HttpServerNode({ port: 3000 });
 const responder = new ResponderNode();
 const logger = new LogHttpRequestNode();
