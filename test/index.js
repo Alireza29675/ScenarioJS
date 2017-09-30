@@ -7,7 +7,7 @@ import TimerNode from "./TimerNode";
 
 const scenario = new Scenario();
 
-const timer = new TimerNode({ timeout: 10000 });
+const timer = new TimerNode({ timeout: 10000, debug: true });
 const server = new HttpServerNode({ port: 3000 });
 const responder = new ResponderNode();
 const logger = new LogHttpRequestNode();
@@ -16,6 +16,4 @@ timer.broadcasters.next.connectTo(server.receivers.control);
 server.broadcasters.request.connectTo(responder.receivers.request);
 server.broadcasters.pathname.connectTo(logger.receivers.request);
 
-scenario.flag(timer);
-
-scenario.start();
+scenario.start(timer);

@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
-    "shapely": "^0.2.3"
+    "jetty": "^0.2.1",
+    "shapely": "^0.2.3",
+    "single-line-log": "^1.1.2"
   }
 }

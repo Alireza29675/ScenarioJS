@@ -22,7 +22,11 @@ class Scenario {
      * starts a node
      * @param node
      */
-    start () {
+    start (node) {
+        // flags all nodes which got to start method
+        for (let node of arguments) this.flag(node)
+
+        // start all flag nodes
         for (let node of this.flagNodes) node.receivers.control.receive(true);
     }
 

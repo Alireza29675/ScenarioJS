@@ -1,4 +1,29 @@
 import { Node, any } from '../lib/index'
+import { stdout as log } from 'single-line-log';
+import chalk from 'chalk'
+
+const space = {
+    free: '░',
+    filled: '█'
+};
+
+const countTo = (to, time) => {
+    const diff = to - Date.now();
+    const percent = diff / time * 100;
+    let progress = '';
+    for (let i = 20; i > 0; i--) progress += percent > i * 5 ? space.free : space.filled;
+    log(chalk`
+    {yellowBright Timer Launched:} ${progress} Remaining: ${diff >= time/100 ? diff : 0}ms/${time}ms
+    
+`);
+    log.clear();
+    if (diff >= time/100) setTimeout(() => { countTo(to, time) }, time/1000)
+};
+
+const countDown = (time) => {
+    countTo(Date.now() + time, time);
+};
+
 
 class TimerNode extends Node {
     constructor (props) {
@@ -12,6 +37,7 @@ class TimerNode extends Node {
         this.pulse = true;
     }
     init () {
+        countDown(this.props.timeout);
         setTimeout(this.sendPulse.bind(this), this.props.timeout)
     }
     sendPulse () {
