@@ -18,6 +18,12 @@ const generateSuccessMessage = (title, message) => {
     {greenBright ${message}}
     `
 };
+const generateLogMessage = (title, message) => {
+    return chalk`
+    {grey  }{white.black  ${title} }
+    {white ${message}}
+    `
+};
 
 class Report {
     /**
@@ -41,6 +47,9 @@ class Report {
         if (this.isError) console.log(generateErrorMessage(`Error`, content.message));
         if (this.isWarning) console.log(generateWarningMessage(`Warning`, content.message));
         if (this.isSuccess) console.log(generateSuccessMessage(`Success`, content.message));
+    }
+    static log (node, message) {
+        console.log(generateLogMessage(`Log from ${node.name}`, message))
     }
 }
 

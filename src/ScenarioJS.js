@@ -1,5 +1,6 @@
 import Node from './Node'
-import { isValid, any, union } from 'shapely'
+import { any } from './tools/TypeValidator'
+import Report from './tools/Report'
 
 class Scenario {
 
@@ -32,5 +33,5 @@ class Scenario {
 
 }
 
-export { Node, any, union };
+export { Node, Report, any };
 export default Scenario;
