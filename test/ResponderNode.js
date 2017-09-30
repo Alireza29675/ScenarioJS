@@ -6,7 +6,8 @@ class ResponserNode extends Node {
         this.addReceiver('request', Object, this.onHttpRequestReceived.bind(this))
     }
     onHttpRequestReceived (data) {
-        data.response.end('PICKLE RIIIICK!!')
+        const { response, request } = data;
+        response.end(request.url)
     }
 }
 

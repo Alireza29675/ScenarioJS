@@ -59,6 +59,14 @@ class Broadcaster {
 
         return this
     }
+
+    /**
+     * Returns true if broadcaster have connections
+     * @return {boolean}
+     */
+    get haveConnections () {
+        return this.connections.length > 0
+    }
 }
 
 export default Broadcaster
