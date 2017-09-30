@@ -1,3 +1,24 @@
+import chalk from 'chalk'
+
+const generateErrorMessage = (title, message) => {
+    return chalk`
+    {bgRed  }{bgRedBright.white  ${title} }
+    {redBright ${message}}
+    `
+};
+const generateWarningMessage = (title, message) => {
+    return chalk`
+    {bgYellow  }{bgYellowBright.black  ${title} }
+    {yellowBright ${message}}
+    `
+};
+const generateSuccessMessage = (title, message) => {
+    return chalk`
+    {bgGreen  }{bgGreenBright.black  ${title} }
+    {greenBright ${message}}
+    `
+};
+
 class Report {
     /**
      * Report constructor
@@ -17,9 +38,9 @@ class Report {
             type: this.type,
             message: this.message
         };
-        if (this.isError) console.error(content);
-        if (this.isWarning) console.warn(content);
-        if (this.isSuccess) console.log(content)
+        if (this.isError) console.log(generateErrorMessage(`Error`, content.message));
+        if (this.isWarning) console.log(generateWarningMessage(`Warning`, content.message));
+        if (this.isSuccess) console.log(generateSuccessMessage(`Success`, content.message));
     }
 }
 

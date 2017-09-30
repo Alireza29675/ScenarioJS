@@ -6,15 +6,17 @@ class HttpServerNode extends Node {
     constructor (props) {
         super({}, props);
         this.props.port = this.props.port || 3000;
+        this.props.debug = this.props.debug || true;
         this.addBroadcaster('request', Object);
         this.addBroadcaster('pathname', String);
         this.addBroadcaster('query', String);
     }
     init () {
         http.createServer(this.onHttpRequest.bind(this)).listen(this.props.port);
-        console.log(`Server is running on http://localhost:${this.props.port}/`)
+        if (this.props.debug) console.log(`Server is running on http://localhost:${this.props.port}/`)
     }
     onHttpRequest (req, res) {
+        if (this.props.debug) console.log(`new request from`);
         const parsedURL = url.parse(req.url);
 
         // Broadcasting Request and Response Object

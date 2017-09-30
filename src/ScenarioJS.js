@@ -4,11 +4,26 @@ import { isValid, any, union } from 'shapely'
 class Scenario {
 
     /**
+     * Scenario constructor
+     */
+    constructor () {
+        this.flagNodes = [];
+    }
+
+    /**
+     * flags a node to start, when start method fired
+     * @param node
+     */
+    flag (node) {
+        this.flagNodes.push(node)
+    }
+
+    /**
      * starts a node
      * @param node
      */
-    start (node) {
-        node.receivers.control.receive(true);
+    start () {
+        for (let node of this.flagNodes) node.receivers.control.receive(true);
     }
 
 }

@@ -16,4 +16,6 @@ timer.broadcasters.next.connectTo(server.receivers.control);
 server.broadcasters.request.connectTo(responder.receivers.request);
 server.broadcasters.pathname.connectTo(logger.receivers.request);
 
-scenario.start(timer);
+scenario.flag(timer);
+
+scenario.start();
