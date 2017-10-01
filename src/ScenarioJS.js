@@ -1,6 +1,7 @@
 import Node from './Node'
-import { any } from './tools/TypeValidator'
 import Report from './tools/Report'
+import { generateUID } from "./tools/UIDManager"
+import { any } from './tools/TypeValidator'
 import chalk from 'chalk'
 
 class Scenario {
@@ -10,7 +11,7 @@ class Scenario {
      */
     constructor () {
         this.flagNodes = [];
-        this.nodes = [];
+        this.nodes = {};
     }
 
     /**
@@ -19,7 +20,9 @@ class Scenario {
      */
     register (node) {
         if (!this.nodes.includes(node)) {
-            this.nodes.push(node);
+            const uid = generateUID();
+            node.uid = uid;
+            this.nodes[uid] = node;
         }
     }
 

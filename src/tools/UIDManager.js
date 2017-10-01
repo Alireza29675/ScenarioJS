@@ -7,7 +7,11 @@ const getIntRandomBetween = (from, to) => {
 };
 
 const generateRandomChar = () => {
-    return String.fromCharCode(getIntRandomBetween(65, 122))
+    let char;
+    do {
+        char = String.fromCharCode(getIntRandomBetween(65, 122))
+    } while (!/^[a-zA-Z]$/.test(char));
+    return char;
 };
 
 const generateUID = () => {

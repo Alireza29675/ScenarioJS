@@ -13,8 +13,6 @@ scenario.register(new HttpServerNode({ port: 3000 }));
 scenario.register(new ResponderNode());
 scenario.register(new LogHttpRequestNode());
 
-
-
 /*
 timer.broadcasters.next.connectTo(server.receivers.control);
 server.broadcasters.request.connectTo(serverDelay.receivers.pass);
