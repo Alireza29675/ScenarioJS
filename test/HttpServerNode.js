@@ -1,4 +1,4 @@
-import { Node } from '../lib/index.js'
+import { Node, chalk } from '../lib/index.js'
 import http from 'http'
 import url from 'url'
 
@@ -13,10 +13,9 @@ class HttpServerNode extends Node {
     }
     init () {
         http.createServer(this.onHttpRequest.bind(this)).listen(this.props.port);
-        if (this.props.debug) console.log(`Server is running on http://localhost:${this.props.port}/`)
+        if (this.props.debug) this.log(chalk`Server is running on {cyanBright.underline http://localhost:${this.props.port}/}`)
     }
     onHttpRequest (req, res) {
-        if (this.props.debug) console.log(`new request from`);
         const parsedURL = url.parse(req.url);
 
         // Broadcasting Request and Response Object

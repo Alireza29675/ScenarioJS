@@ -1,12 +1,12 @@
-import { Node } from '../lib/index'
+import { Node, chalk } from '../lib/index'
 
 class LogHttpRequestNode extends Node {
     constructor () {
         super();
-        this.addReceiver('request', String, this.onHttpRequestReceived.bind(this));
+        this.addReceiver('pathname', String, this.onPathnameReceived.bind(this));
     }
-    onHttpRequestReceived (data) {
-        console.log(data);
+    onPathnameReceived (pathname) {
+        this.log(chalk`{bgCyanBright.black  GET } {cyanBright new request from:} ${pathname}`);
     }
 }
 

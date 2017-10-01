@@ -1,6 +1,7 @@
 import Node from './Node'
 import { any } from './tools/TypeValidator'
 import Report from './tools/Report'
+import chalk from 'chalk'
 
 class Scenario {
 
@@ -9,6 +10,17 @@ class Scenario {
      */
     constructor () {
         this.flagNodes = [];
+        this.nodes = [];
+    }
+
+    /**
+     * registers a node and add it to scenario flow
+     * @param {Node} node
+     */
+    register (node) {
+        if (!this.nodes.includes(node)) {
+            this.nodes.push(node);
+        }
     }
 
     /**
@@ -33,5 +45,5 @@ class Scenario {
 
 }
 
-export { Node, Report, any };
+export { Node, Report, any, chalk };
 export default Scenario;

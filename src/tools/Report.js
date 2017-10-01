@@ -3,26 +3,22 @@ import chalk from 'chalk'
 const generateErrorMessage = (title, message) => {
     return chalk`
     {bgRed  }{bgRedBright.white  ${title} }
-    {redBright ${message}}
-    `
+    {redBright ${message}}`
 };
 const generateWarningMessage = (title, message) => {
     return chalk`
     {bgYellow  }{bgYellowBright.black  ${title} }
-    {yellowBright ${message}}
-    `
+    {yellowBright ${message}}`
 };
 const generateSuccessMessage = (title, message) => {
     return chalk`
     {bgGreen  }{bgGreenBright.black  ${title} }
-    {greenBright ${message}}
-    `
+    {greenBright ${message}}`
 };
 const generateLogMessage = (title, message) => {
     return chalk`
     {grey  }{white.black  ${title} }
-    {white ${message}}
-    `
+    {white ${message}}`
 };
 
 class Report {

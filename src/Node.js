@@ -4,15 +4,13 @@ import Broadcaster from "./Broadcaster";
 import Report from "./tools/Report";
 
 const defaultNodeOptions = {
-    name: 'no-name',
-    label: 'No Name Node!',
+    name: 'unnamed',
+    label: '',
     script: '',
     shouldPass: true,
     position: [0, 0]
 };
-const defaultProperties = {
-
-};
+const defaultProperties = {};
 
 class Node {
     /**
@@ -181,6 +179,14 @@ class Node {
         });
         receiver.addListener(cb);
         return receiver
+    }
+
+    /**
+     * Prints a Report log to console
+     * @param message
+     */
+    log (message) {
+        Report.log(this, message)
     }
 }
 
