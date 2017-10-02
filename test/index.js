@@ -7,25 +7,22 @@ import TimerNode from "./TimerNode";
 
 const scenario = new Scenario();
 
-const startTimer = scenario.register(new TimerNode({ timeout: 3000, debug: true }));
-const serverDelay = scenario.register(new TimerNode({ timeout: 2000 }));
-const server = scenario.register(new HttpServerNode({ port: 3000 }));
-const responder = scenario.register(new ResponderNode());
-const logger = scenario.register(new LogHttpRequestNode());
+const getBroadcaster = (nodeIndex, name) => { return { node: registeredNodes[nodeIndex], broadcaster: name } };
+const getReceiver = (nodeIndex, name) => { return { node: registeredNodes[nodeIndex], receiver: name } };
 
-scenario.connect({ node: startTimer, broadcaster: 'next' }, { node: server, receiver: 'control'});
-scenario.connect({ node: server, broadcaster: 'request' }, { node: serverDelay, receiver: 'pass'});
-scenario.connect({ node: server, broadcaster: 'pathname' }, { node: logger, receiver: 'pathname'});
-scenario.connect({ node: serverDelay, broadcaster: 'pass' }, { node: responder, receiver: 'request'});
+const registeredNodes = [
+    /* 0 */  scenario.register(new TimerNode({ timeout: 3000, debug: true })),
+    /* 1 */  scenario.register(new TimerNode({ timeout: 2000 })),
+    /* 2 */  scenario.register(new HttpServerNode({ port: 3000 })),
+    /* 3 */  scenario.register(new ResponderNode()),
+    /* 4 */  scenario.register(new LogHttpRequestNode())
+];
 
-scenario.flag(startTimer)
+scenario.connect(getBroadcaster(0, 'next'), getReceiver(2, 'control'));
+scenario.connect(getBroadcaster(2, 'request'), getReceiver(1, 'pass'));
+scenario.connect(getBroadcaster(2, 'pathname'), getReceiver(4, 'pathname'));
+scenario.connect(getBroadcaster(1, 'pass'), getReceiver(3, 'request'));
+
+scenario.flag(registeredNodes[0]);
 
 scenario.start();
-
-/*
-timer.broadcasters.next.connectTo(server.receivers.control);
-server.broadcasters.request.connectTo(serverDelay.receivers.pass);
-serverDelay.broadcasters.pass.connectTo(responder.receivers.request);
-server.broadcasters.pathname.connectTo(logger.receivers.pathname);
-
-scenario.start(timer); */
