@@ -23,7 +23,9 @@ class Scenario {
             const uid = generateUID();
             node.uid = uid;
             this.nodes[uid] = node;
+            return uid;
         }
+        return null;
     }
 
     /**
@@ -37,11 +39,41 @@ class Scenario {
     }
 
     /**
+     * connects a receiver to a broadcaster
+     * @param beginPoint
+     * @param endPoints
+     */
+    connect (beginPoint = { node: null, broadcaster: '' }, ...endPoints) {
+
+        // Convert uid code to real nodes if needed
+        beginPoint.node = this.getNode(beginPoint.node);
+
+        // connecting
+        for (let endPoint of endPoints) {
+            endPoint.node = this.getNode(endPoint.node);
+            beginPoint.node.broadcasters[beginPoint.broadcaster].connectTo(endPoint.node.receivers[endPoint.receiver])
+        }
+    }
+
+    /**
+     * Finds and returns the node using uid
+     * @param uid
+     * @return {Node}
+     */
+    getNode (uid) {
+        if (uid instanceof Node) return uid;
+        return this.nodes[uid]
+    }
+
+    /**
      * flags a node to start, when start method fired
      * @param node
+     * @return {Scenario}
      */
     flag (node) {
-        this.flagNodes.push(node)
+        node = this.getNode(node);
+        this.flagNodes.push(node);
+        return this;
     }
 
     /**
