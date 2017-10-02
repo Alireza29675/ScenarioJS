@@ -19,8 +19,10 @@ const generateUID = () => {
     do {
         uid = '';
         for (let i = digits; i > 0; i--) uid += generateRandomChar();
-    } while (usedUIDs.includes(uid));
+    } while (UIDExists(uid));
     return uid;
 };
 
-export { generateUID }
+const UIDExists = (uid) => usedUIDs.includes(uid);
+
+export { generateUID, UIDExists }

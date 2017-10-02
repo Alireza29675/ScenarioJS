@@ -19,11 +19,21 @@ class Scenario {
      * @param {Node} node
      */
     register (node) {
-        if (!this.nodes.includes(node)) {
+        if (!this.hasNode(node)) {
             const uid = generateUID();
             node.uid = uid;
             this.nodes[uid] = node;
         }
+    }
+
+    /**
+     * check if scenario registered a node before!
+     * @param node
+     * @return {boolean}
+     */
+    hasNode (node) {
+        for (let uid in this.nodes) if (this.nodes[uid] === node) return true;
+        return false;
     }
 
     /**
