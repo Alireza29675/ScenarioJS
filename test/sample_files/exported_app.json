@@ -1,0 +1,36 @@
+{
+  "nodes": [
+    {
+      "constructor": "TimerNode",
+      "props": { "timeout": 3000, "debug": true },
+      "position": [0, 0]
+    },
+    {
+      "constructor": "TimerNode",
+      "props": { "timeout": 2000 },
+      "position": [0, 0]
+    },
+    {
+      "constructor": "HttpServerNode",
+      "props": { "port": 3000 },
+      "position": [0, 0]
+    },
+    {
+      "constructor": "ResponderNode",
+      "props": { "timeout": 2000 },
+      "position": [0, 0]
+    },
+    {
+      "constructor": "LogHttpRequestNode",
+      "props": { "timeout": 2000 },
+      "position": [0, 0]
+    }
+  ],
+  "connections": [
+    [0, "next", 2, "control"],
+    [2, "request", 1, "pass"],
+    [2, "pathname", 4, "pathname"],
+    [1, "pass", 3, "request"]
+  ],
+  "flags": [0]
+}
