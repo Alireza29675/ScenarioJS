@@ -1,0 +1,29 @@
+{
+  "name": "scenariojs",
+  "version": "0.0.0",
+  "description": "a node-based visual scripting system",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node ./dist/index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alireza29675/ScenarioJS.git"
+  },
+  "keywords": [
+    "scenario",
+    "visualscripting",
+    "blueprint"
+  ],
+  "author": "Alireza Sheikholmolouki",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Alireza29675/ScenarioJS/issues"
+  },
+  "homepage": "https://github.com/Alireza29675/ScenarioJS#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.5",
+    "typescript": "^3.1.5"
+  }
+}
